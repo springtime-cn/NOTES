@@ -1,0 +1,49 @@
+
+
+step1: unable the nouveau driver
+
+	sudo gedit /etc/modprobe.d/blacklist-nouveau.conf
+	添加：
+	blacklist nouveau
+	options nouveau modeset=0
+	The Nouveau drivers are loaded if the following command prints anything:
+	$ lsmod | grep nouveau
+
+	Regenerate the kernel initramfs:
+	$ sudo update-initramfs -u
+
+	You will need to reboot your system after adding these configuration directives in order for them to take effect.
+
+step2: disable the x-window
+	service gdm stop
+	sudo systemctl disable lightdm.service
+	This will prevent the service from starting at boot.
+
+	sudo systemctl restart lightdm.service, OK.
+	sudo service lightdm restart
+	sudo service lightdm start
+
+step3: install driver
+	-A, --advanced-options
+      Print usage information for the common commandline options
+      as well as the advanced options, and then exit.
+	--uninstall
+      Uninstall the currently installed NVIDIA driver.
+      When uninstalling the driver, skip unloading of the NVIDIA
+      uninstalled.  This option causes the installer to simply
+      Install a kernel module only, and do not uninstall the
+      /usr/lib/nvidia before and after installing or uninstalling
+
+	--no-opengl-libs
+	when you have integrated gpu and only want to use it, add this option.
+
+step4: configure the xorg.conf
+	
+	im my instance, nvidia-smi, it prints xorg 5Mib. and this is OK.
+
+step5: install cuda runfile and cudnn
+
+	don't forget the 'no opengl' option
+
+Done
+	
